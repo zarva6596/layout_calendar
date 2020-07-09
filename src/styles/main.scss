@@ -1,3 +1,118 @@
+@mixin day {
+  text-align: center;
+  line-height: 100px;
+  margin: 1px 1px 0 0;
+  width: 100px;
+  height: 100px;
+  background-color: #eee;
+  border: 1px solid #000;
+  font-size: 30px;
+}
+
+@mixin hover {
+  animation: hover-day 0.5s forwards;
+}
+
+@mixin dayweek ($day_of_week) {
+  :first-child {
+    @include day;
+    margin-left: $day_of_week * 100px + $day_of_week - 101px;
+  }
+
+  :first-child::after {
+    content: "1";
+  }
+
+  :first-child:hover {
+    @include hover;
+  }
+}
+
+@mixin daymoth ($day_of_moth) {
+  @for $i from 2 through $day_of_moth {
+    :nth-child(#{$i}) {
+      @include day;
+    }
+
+    :nth-child(#{$i})::after {
+      content: "#{$i}";
+    }
+
+    :nth-child(#{$i}):hover {
+      @include hover;
+    }
+  }
+}
+
+@keyframes hover-day {
+  from {
+    background-color: #eee;
+    transform: translate(0, 0);
+  }
+
+  to {
+    background-color: pink;
+    transform: translate(0, -20px);
+  }
+}
+
 body {
   margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.calendar {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 708px;
+}
+
+.calendar- {
+  &mon {
+    @include dayweek(1);
+  }
+
+  &tue {
+    @include dayweek(2);
+  }
+
+  &wed {
+    @include dayweek(3);
+  }
+
+  &thu {
+    @include dayweek(4);
+  }
+
+  &fri {
+    @include dayweek(5);
+  }
+
+  &sat {
+    @include dayweek(6);
+  }
+
+  &sun {
+    @include dayweek(7);
+  }
+
+  &28 {
+    @include daymoth(28);
+  }
+
+  &29 {
+    @include daymoth(29);
+  }
+
+  &30 {
+    @include daymoth(30);
+  }
+
+  &31 {
+    @include daymoth(31);
+  }
 }
