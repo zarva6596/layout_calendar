@@ -7,10 +7,12 @@
   background-color: #eee;
   border: 1px solid #000;
   font-size: 30px;
+  transition: background-color 0.5s, transform 0.5s;
 }
 
 @mixin hover {
-  animation: hover-day 0.5s forwards;
+  background-color: pink;
+  transform: translate(0, -20px);
 }
 
 @mixin dayweek ($day_of_week) {
@@ -44,18 +46,6 @@
   }
 }
 
-@keyframes hover-day {
-  from {
-    background-color: #eee;
-    transform: translate(0, 0);
-  }
-
-  to {
-    background-color: pink;
-    transform: translate(0, -20px);
-  }
-}
-
 body {
   margin: 0;
   font-family: Arial, sans-serif;
@@ -71,48 +61,24 @@ body {
   max-width: 708px;
 }
 
-.calendar- {
-  &mon {
-    @include dayweek(1);
-  }
+$days: (
+  "mon": 1,
+  "tue": 2,
+  "wed": 3,
+  "thu": 4,
+  "fri": 5,
+  "sat": 6,
+  "sun": 7
+);
 
-  &tue {
-    @include dayweek(2);
+@each $name, $number in $days {
+  .calendar-#{$name} {
+    @include dayweek($number);
   }
+}
 
-  &wed {
-    @include dayweek(3);
-  }
-
-  &thu {
-    @include dayweek(4);
-  }
-
-  &fri {
-    @include dayweek(5);
-  }
-
-  &sat {
-    @include dayweek(6);
-  }
-
-  &sun {
-    @include dayweek(7);
-  }
-
-  &28 {
-    @include daymoth(28);
-  }
-
-  &29 {
-    @include daymoth(29);
-  }
-
-  &30 {
-    @include daymoth(30);
-  }
-
-  &31 {
-    @include daymoth(31);
+@for $i from 28 to 31 {
+  .calendar-#{$i} {
+    @include daymoth($i);
   }
 }
